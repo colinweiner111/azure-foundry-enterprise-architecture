@@ -293,7 +293,8 @@ Private endpoints in the customer VNet provide secure access to Azure OpenAI / F
 | Multiple apps from different teams | Multiple projects |
 | Need ML training / fine-tuning | Add Foundry AI Hub |
 | Running open-source models | Add Foundry AI Hub |
-| Centralized governance required | Hub-based or landing zone networking |
+| Centralized networking & security governance | Landing zone architecture (hub VNet, firewall, DNS, Policy, RBAC) |
+| Centralized ML platform (shared models, training, compute) | Add Foundry AI Hub |
 
 | Factor | Foundry Projects Only | Hub with Projects |
 |---|---|---|
@@ -726,6 +727,14 @@ Azure Firewall or NVA blocks outbound traffic to Azure AI service endpoints. Mod
 Multiple teams each deploy their own private endpoints, DNS zones, and firewall rules. Configuration drifts, costs increase, and troubleshooting becomes fragmented.
 
 **Fix:** Evaluate whether a hub-based architecture would centralize networking and reduce operational overhead. If standalone projects are required, enforce consistent configuration through Azure Policy.
+
+---
+
+## Companion Repository
+
+| Repository | Description |
+|---|---|
+| [azure-foundry-enterprise-deployment](https://github.com/colinweiner111/azure-foundry-enterprise-deployment) | Bicep deployment templates implementing the patterns described in this guide. Deploys a complete enterprise AI environment with networking, shared services, Foundry projects, and hub-based projects. |
 
 ---
 
