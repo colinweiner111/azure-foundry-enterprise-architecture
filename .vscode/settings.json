@@ -1,0 +1,12 @@
+{
+  "window.title": "🔵 NETWORKING LAB — ${rootName} — branch: ${activeRepositoryBranchName} — ${activeEditorShort}",
+  "peacock.affectActivityBar": true,
+  "peacock.affectTitleBar": true,
+  "peacock.affectStatusBar": true,
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#1F6FEB",
+    "titleBar.activeForeground": "#FFFFFF",
+    "titleBar.inactiveBackground": "#1A5BBF",
+    "titleBar.inactiveForeground": "#CCCCCC"
+  }
+}

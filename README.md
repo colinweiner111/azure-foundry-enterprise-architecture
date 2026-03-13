@@ -401,25 +401,7 @@ Microsoft Foundry deployments typically integrate with an existing Azure Landing
 
 The goal is to provide secure private connectivity between enterprise networks and AI services while maintaining centralized network governance.
 
-> **Diagram:** [foundry-enterprise-networking.drawio](diagrams/foundry-enterprise-networking.drawio) — open in [draw.io](https://app.diagrams.net) or VS Code with the [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) extension.
-
-Typical architecture flow:
-
-```
-Corporate Network / On-premises
-        │
-ExpressRoute or Site-to-Site VPN
-        │
-Azure Hub VNet
-        │
-Azure Firewall / NVA
-        │
-Private DNS Zones
-        │
-Private Endpoints
-        │
-Azure AI Foundry services
-```
+![Enterprise Networking Architecture](images/foundry-enterprise-networking.svg)
 
 ### Hub Virtual Network
 
