@@ -28,9 +28,9 @@
 - Hub-based projects are primarily used when **Azure Machine Learning** capabilities are required (training, fine-tuning, custom model hosting)
 - Enterprise networking typically integrates with the **Azure landing zone** (hub-spoke VNets, centralized DNS, firewall, Private Link)
 - Model inference runs in **Microsoft-managed infrastructure** — not inside the customer VNet
-- Private endpoints provide secure connectivity from VNets to AI services but **do not move the model runtime** into the VNet
+- Private endpoints provide network-isolated connectivity from VNets to AI services but **do not move the model runtime** into the VNet
 - Foundry projects and hub-based projects can **coexist** and share enterprise infrastructure
-- **AI Hubs are not networking hubs** — they provide ML platform capabilities. Networking should be centralized in the landing zone architecture (hub VNets, firewall, private endpoints, DNS)
+- **AI Hubs are not networking hubs** — they provide ML platform capabilities. Networking should remain centralized in the landing zone (hub VNets, firewall, Private Link, DNS)
 
 ### Important Architecture Clarification
 
@@ -43,12 +43,7 @@ AI Hubs exist to provide machine learning platform capabilities, including:
 - ML pipelines
 - Model lifecycle management
 
-Networking centralization should instead be implemented through the enterprise landing zone architecture, such as:
-
-- Hub-spoke VNets
-- Azure Firewall
-- Private DNS zones
-- Private endpoints
+Networking centralization should be implemented through the enterprise landing zone architecture (hub-spoke VNets, Azure Firewall, Private DNS zones, Private Endpoints). Hub-based and Foundry projects then access AI services through this shared networking layer.
 
 Most generative AI applications built with Foundry projects do not require an AI Hub unless Azure Machine Learning capabilities are needed.
 
@@ -117,7 +112,7 @@ Microsoft Foundry supports multiple Azure resource types, each designed for diff
 | **Azure OpenAI** | Specialized resource for OpenAI models and APIs only. The Foundry resource is a superset — you can [upgrade from Azure OpenAI to Foundry](https://learn.microsoft.com/azure/foundry-classic/how-to/upgrade-azure-openai) and keep your existing endpoint and config. |
 | **Azure AI Search** | Separate resource for indexing and retrieval. Connected to Foundry for RAG scenarios. |
 
-The Foundry resource is essentially an evolved, superset version of what previously required a Hub + Azure OpenAI + separate services, consolidated under one resource type.
+The Foundry resource consolidates many capabilities that previously required a Hub, Azure OpenAI, and multiple AI platform services, providing a unified entry point for building generative AI applications and agents.
 
 ### Resource Hierarchy
 
@@ -289,7 +284,7 @@ The new Foundry portal experience is project-centric, which strongly suggests th
 
 ## What Runs Inside Your Network
 
-Model inference services remain Microsoft-managed services — the model runtime does not run inside the customer VNet. Private endpoints provide secure connectivity to these services but do not move the runtime into the customer network.
+Model inference services remain Microsoft-managed services — the model runtime does not run inside the customer VNet. Private endpoints provide network-isolated connectivity to these services but do not move the runtime into the customer network.
 
 Networking is used to securely access supporting services:
 
@@ -300,7 +295,7 @@ Networking is used to securely access supporting services:
 | Azure AI Search | Retrieval for RAG solutions |
 | Azure Key Vault | Secret management |
 
-Private endpoints in the customer VNet provide secure access to Azure OpenAI / Foundry services running on Microsoft-managed infrastructure.
+Private endpoints in the customer VNet provide network-isolated access to Azure OpenAI / Foundry services running on Microsoft-managed infrastructure.
 
 ---
 
@@ -433,8 +428,11 @@ Common private endpoints used with AI workloads:
 | Azure Storage | Prompts, datasets, artifacts |
 | Azure AI Search | RAG data retrieval |
 | Azure Key Vault | Secrets and encryption keys |
+| **Foundry resource** | Private access to the Foundry API and project endpoints |
 
 Private endpoints allow services to be accessed through private IP addresses inside the VNet.
+
+Private endpoints can also be created for the Foundry resource itself, allowing private connectivity to the Foundry API and project endpoints from enterprise VNets. This allows organizations to disable public network access while maintaining secure access through the enterprise landing zone network.
 
 ### Private DNS
 
@@ -749,6 +747,7 @@ Multiple teams each deploy their own private endpoints, DNS zones, and firewall 
 - [Private endpoint networking for AI Foundry](https://learn.microsoft.com/azure/ai-foundry/concepts/network-security)
 - [Sample Bicep templates](https://github.com/azure-ai-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/01-connections)
 - [Sample Terraform templates](https://github.com/azure-ai-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-terraform/)
+- [Configure Private Link for Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-private-link)
 
 ---
 
