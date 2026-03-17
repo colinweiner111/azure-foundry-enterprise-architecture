@@ -27,6 +27,7 @@
 - Foundry projects are the **recommended starting point** for most generative AI applications and agents
 - Hub-based projects are primarily used when **Azure Machine Learning** capabilities are required (training, fine-tuning, custom model hosting)
 - Enterprise networking typically integrates with the **Azure landing zone** (hub-spoke VNets, centralized DNS, firewall, Private Link)
+- Networking configuration is defined at the **Foundry resource level**, not the project level — projects inherit networking from their parent resource. Workloads requiring different VNets or network isolation boundaries typically require **separate Foundry resources**
 - Model inference runs in **Microsoft-managed infrastructure** — not inside the customer VNet
 - Private endpoints provide network-isolated connectivity from VNets to AI services but **do not move the model runtime** into the VNet
 - Foundry projects and hub-based projects can **coexist** and share enterprise infrastructure
@@ -169,7 +170,7 @@ These are **different project types** with different parent resources and differ
 |---|---|---|
 | Parent resource | Foundry resource | AI Hub |
 | Hub required | No | Yes |
-| New AI features | Yes | No (preview only) |
+| Foundry platform features | Full support | Limited support |
 | Azure ML capabilities | No | Yes |
 | Architecture model | Current / recommended | Specialized (ML-focused) |
 
@@ -313,7 +314,7 @@ Private endpoints in the customer VNet provide network-isolated access to Azure 
 | Factor | Foundry Projects Only | Hub with Projects |
 |---|---|---|
 | Team autonomy | High — team owns everything | Moderate — inherits hub config |
-| Networking control | Per-project (or via landing zone) | Centralized at hub |
+| Networking control | Defined at the **Foundry resource level** (or via landing zone architecture) | Centralized at hub |
 | Governance overhead | Higher per project | Lower — enforced at hub |
 | Infrastructure reuse | None | Shared endpoints, models, connections |
 | Setup complexity | Simpler for one project | Simpler at scale |
@@ -387,6 +388,8 @@ Hub-based architectures allow shared connections to services such as:
 Connections and tools are project-scoped, so sharing common data sources now requires per-project configuration and automation.
 
 While this increases management overhead, project-scoped connections and isolation significantly reduce blast radius and simplify compliance for regulated workloads.
+
+Because networking configuration is defined at the Foundry resource level, workloads that require different network isolation boundaries (for example different VNets, firewall policies, or Private Link configurations) typically require deploying **separate Foundry resources rather than separate projects**.
 
 ---
 
